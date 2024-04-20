@@ -1,4 +1,6 @@
-SELECT  schema_name(t.schema_id) + '.' + t.name AS table_name,
+SELECT  
+	t.object_id AS table_id,
+	schema_name(t.schema_id) + '.' + t.name AS table_name,
 	c.column_id,
 	c.name AS column_name,
 	tp.name AS type_name,
@@ -8,6 +10,7 @@ SELECT  schema_name(t.schema_id) + '.' + t.name AS table_name,
 	case when (c.column_id = ic.column_id) then 1
 	else 0 end AS is_PK,
 	fk.name AS FK_name,
+	t_pk.object_id AS PK_table_id,
 	schema_name(t_pk.schema_id) + '.' + t_pk.name AS PK_table,
 	c_pk.name AS PK_column
 FROM sys.tables AS t
