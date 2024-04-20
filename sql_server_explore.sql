@@ -12,6 +12,7 @@ SELECT
 	fk.name AS FK_name,
 	t_pk.object_id AS PK_table_id,
 	schema_name(t_pk.schema_id) + '.' + t_pk.name AS PK_table,
+	c_pk.column_id AS PK_column_id,
 	c_pk.name AS PK_column
 FROM sys.tables AS t
 	INNER JOIN sys.columns AS c ON t.object_id = c.object_id
