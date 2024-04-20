@@ -1,5 +1,4 @@
-SELECT  schema_name(t.schema_id) AS schema_name, 
-	t.name AS table_name,
+SELECT  schema_name(t.schema_id) + '.' + t.name AS table_name,
 	c.column_id,
 	c.name AS column_name,
 	tp.name AS type_name,
@@ -9,7 +8,7 @@ SELECT  schema_name(t.schema_id) AS schema_name,
 	case when (c.column_id = ic.column_id) then 1
 	else 0 end AS is_PK,
 	fk.name AS FK_name,
-	t_pk.name AS PK_table,
+	schema_name(t_pk.schema_id) + '.' + t_pk.name AS PK_table,
 	c_pk.name AS PK_column
 FROM sys.tables AS t
 	INNER JOIN sys.columns AS c ON t.object_id = c.object_id
@@ -25,4 +24,4 @@ FROM sys.tables AS t
 	LEFT JOIN sys.tables t_pk ON fkc.referenced_object_id = t_pk.object_id
 	LEFT JOIN sys.columns c_pk ON fkc.referenced_column_id = c_pk.column_id
 		AND fkc.referenced_object_id = c_pk.object_id
-ORDER BY schema_name, table_name, column_id
+ORDER BY table_name, column_id
